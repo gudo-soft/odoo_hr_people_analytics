@@ -1,0 +1,1 @@
+# odoo_hr_people_analytics
