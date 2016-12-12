@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pa_assets_backend" name="hr_people_analytics assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/hr_people_analytics/static/src/js/pa_activity.js"></script>            
+            <script type="text/javascript" src="/hr_people_analytics/static/src/js/pa_widget.js"></script>
+            <script type="text/javascript" src="/hr_people_analytics/static/src/js/pa_widget_n.js"></script>
+　　　　　　　　　　　　<link rel="stylesheet" href="/hr_people_analytics/static/src/less/pa_activity.less"/>
+        </xpath>
+    </template>
+</odoo>

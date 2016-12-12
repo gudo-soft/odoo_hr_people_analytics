@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ 
+    <record id="hr_general_activity" model="ir.actions.act_window">
+        <field name="name">General Activities</field>
+        <field name="res_model">hr.general.activity</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field> 
+        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new general activity.
+              </p><p>
+                Here you can define a general activity which is applied to all empolees;
+                meeting, lunch, coffee break, business trip, etc. 
+              </p>
+        </field>
+    </record>
+
+    <record id="hr_related_activity_tree" model="ir.ui.view">
+        <field name="name">hr.related_activity.tree</field>
+        <field name="model">hr.related.activity</field>
+        <field name="arch" type="xml">
+            <tree string="Related activity">
+                <field name="employee_id" />
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_activity_record_tree" model="ir.ui.view">
+        <field name="name">hr.activity_record.tree</field>
+        <field name="model">hr.activity.record</field>
+        <field name="arch" type="xml">
+            <tree string="Activity Record Analytics">
+                <field name="employee_id" />
+                <field name="general_activity"/>
+                <field name="related_activity"/>
+                <field name="date_start"/> 
+                <field name="date_finished"/>
+                <field name="duration"/>
+                <field name="state"/>   
+            </tree>
+        </field>
+    </record>
+
+<!-- Search View for Related Activities -->
+    <record id="hr_related_activity_search_view" model="ir.ui.view">
+			<field name="name">hr_related_activity_search_view</field>
+			<field name="model">hr.related.activity</field>
+			<field name="arch" type="xml">
+				<search string="Activity Information">
+					<field name="employee_id"/>
+					<field name="name"/>
+                                    <group expand="0" string="Group By"/>
+						<filter name="groupby_employee" string="Employee" domain="[]" context="{'group_by':'employee_id'}"
+							help="Group Activities by employee"/>
+				</search>
+			</field>
+		</record>
+
+    <record id="hr_related_activity" model="ir.actions.act_window">
+        <field name="name">Related Activities</field>
+        <field name="res_model">hr.related.activity</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new related activity.
+              </p><p>
+                Here you can define a related activity which is applied to a specific empolee;
+                sale order, project, task, etc. 
+              </p>
+        </field>       
+    </record>
+
+    <record id="hr_activity_record" model="ir.actions.act_window">
+        <field name="name">Activity Record</field>
+        <field name="res_model">hr.activity.record</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field> 
+    </record>
+<!--
+    <record id="hr_activity_record_line" model="ir.actions.act_window">
+        <field name="name">Activity Record Line</field>
+        <field name="res_model">hr.activity.record.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field> 
+    </record>
+-->
+
+
+<!-- Search View for activity_record -->
+    <record id="hr_activity_record_search_view" model="ir.ui.view">
+			<field name="name">hr_activity_record_search_view</field>
+			<field name="model">hr.activity.record</field>
+			<field name="arch" type="xml">
+				<search string="Activity Information">
+					<field name="employee_id"/>
+                                    <field name="general_activity"/>
+					<field name="related_activity"/>
+                                    <field name="date_start"/>
+                                    <group expand="0" string="Group By"/>
+						<filter name="groupby_employee" string="Employee" domain="[]" context="{'group_by':'employee_id'}"
+							help="Group Activities by employee"/>
+                                   <group expand="0" string="Group By"/>
+						<filter name="groupby_date_start" string="Date" domain="[]" context="{'group_by':'date_start'}"
+					       	help="Group Activities by date"/>
+                                   <group expand="0" string="Group By"/>
+						<filter name="groupby_deneral_activity" string="General Activity" domain="[]" context="{'group_by':'general_activity'}"
+							help="Group Activities by General Activity"/>
+                                   <group expand="0" string="Group By"/>
+						<filter name="groupby_related_activity" string="Related Activity" domain="[]" context="{'group_by':'related_activity'}"
+							help="Group Activities by Related Activity"/>
+				</search>
+			</field>
+		</record>
+
+
+
+    <record id="hr_activity_record_view_form" model="ir.ui.view">
+        <field name="name">hr_activity_record_view_form</field>
+        <field name="model">hr.activity.record</field>
+        <field name="arch" type="xml">
+            <form string="Activity record">
+                <header>
+                <button name="button_start" type="object" string="Start" attrs="{'invisible': ['|', ('state', '=', 'progress'), ('state', '=', 'done')]}" class="oe_highlight"/>
+                 <button name="button_stop" type="object" string="Finish" attrs="{'invisible': ['|', ('state', '=', 'inactive'), ('state', '=', 'done')]}" class="oe_highlight" />
+                 <button name="button_pending" type="object" string="Pause"  attrs="{'invisible': ['|', '|', ('state', '=', 'inactive'), ('state', '=', 'done'),('state', '=', 'pending')]}" class="oe_highlight"/>
+                <field name="state" widget="statusbar" statusbar_visible="inactive,pending,progress,done"/>     
+            </header>
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="department_id"/> 
+                        <field name="general_activity"/>
+                        <field name="related_activity" />    
+                    </group>
+                    <group>                        
+                        <field name="date_start"/> 
+                        <field name="date_finished"/>  
+                        <field name="comment"/>                                              
+                    </group>
+
+                  <notebook> 
+                    <page string="Time Tracking" groups="hr_attendance.group_hr_attendance_user">
+                   
+                    <group>                        
+                        <group>                     
+                            <label for="duration"/>
+                            <div>
+                                <button style="pointer-events: none;" class="oe_inline label label-default">
+                                    <field name="duration" widget="pa_time_counter_n"/>
+                                </button>
+                            </div>
+                            <label for="real_duration"/>
+                            <div>
+                                <button style="pointer-events: none;" class="oe_inline label label-default">
+                                    <field name="real_duration" widget="pa_time_counter"/>
+                                </button>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="activity_record_line" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="date_start"/>
+                                <field name="date_finished"/>
+                                <field name="duration" widget="float_time"/>
+                               
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="date_start"/>
+                                        <field name="date_finished"/>
+                                        <field name="duration" widget="float_time"/>
+                                    </group>
+                                    
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                  </page>
+                 </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="hr_activity_record_view_calendar" model="ir.ui.view">
+        <field name="name">hr_activity_record_view_calendar</field>
+        <field name="model">hr.activity.record</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_finished" color="employee_id"> 
+                        <field name="employee_id"/>                      
+                        <field name="general_activity"/>
+                        <field name="related_activity" />    
+             </calendar>       
+        </field>
+    </record>
+
+    <record id="hr_activity_record_view_pivot" model="ir.ui.view">
+        <field name="name">hr_activity_record_view_pivot</field>
+        <field name="model">hr.activity.record</field>
+        <field name="arch" type="xml">
+             <graph tyoe="pivot">            
+                        <field name="employee_id" type="row"/>                      
+                        <field name="general_activity" type="row"/>
+                        <field name="related_activity" type="row"/> 
+                        <field name="date_start" type="row"/>
+                        <field name="duration" type="measure"/>       
+             </graph>       
+        </field>
+    </record>
+
+    <record id="hr_activity_record_view_graph" model="ir.ui.view">
+        <field name="name">hr_activity_record_view_graph</field>
+        <field name="model">hr.activity.record</field>
+        <field name="arch" type="xml">
+             <graph tyoe="bar">            
+                        <field name="employee_id" type="row"/>                      
+                        <field name="general_activity" type="row"/>
+                        <field name="related_activity" type="row"/> 
+                        <field name="date_start" type="row"/>
+                        <field name="duration" type="measure"/>  
+                        <field name="real_duration" type="measure"/>      
+             </graph>       
+        </field>
+    </record>
+
+    <record id="hr_related_activity_view_form" model="ir.ui.view">
+        <field name="name">hr.related_activity_view.form</field>
+        <field name="model">hr.related.activity</field>
+        <field name="arch" type="xml">
+            <form string="Related Activity">
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                    </group>
+                    <group>
+                        <field name="name"/>   
+                    </group>  
+                    <group>
+                        <field name="active"/>   
+                    </group>                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_activity_auto_record" model="ir.actions.client">
+        <field name="name">Attendance</field>
+        <field name="tag">hr_people_analytics_my_activities</field>
+        <field name="target">main</field>
+    </record>
+
+    
+<!-- Menu -->
+
+    <menuitem id="menu_hr_people_analytics" name="People Analytics" parent="hr_attendance.menu_hr_attendance_root" sequence="100" groups="hr_attendance.group_hr_attendance_user"/>
+
+
+    <menuitem id="menu_pa_general_activities" name="General Activities" parent="menu_hr_people_analytics" sequence="10"  groups="hr_attendance.group_hr_attendance_user" action="hr_general_activity"/>
+
+   <menuitem id="menu_pa_related_activities" name="Related Activities" parent="menu_hr_people_analytics" sequence="30" groups="hr_attendance.group_hr_attendance_user" action="hr_related_activity"/>
+
+   <menuitem id="menu_pa_activity_record" name="Activity Record Analytics" parent="menu_hr_people_analytics" sequence="50" groups="hr_attendance.group_hr_attendance_user" action="hr_activity_record"/>
+
+   <menuitem id="menu_pa_activity_auto_record" name="Record Activities" parent="menu_hr_people_analytics" sequence="40" groups="hr_attendance.group_hr_attendance_user" action="hr_activity_auto_record"/>
+<!--  
+   <menuitem id="menu_pa_activity_record_line" name="Activity Record Line" parent="menu_hr_people_analytics" sequence="51" groups="hr_attendance.group_hr_attendance_user" action="hr_activity_record_line"/>
+-->
+</odoo>

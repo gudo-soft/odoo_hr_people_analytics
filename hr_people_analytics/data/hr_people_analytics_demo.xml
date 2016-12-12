@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+    <!--Department-->
+
+      <record id="sales_management" model="hr.department">
+          <field name="name">営業部</field>
+      </record>
+
+   <!-- User  -->      
+       <record id="hr_people_analytics_partner_jp1" model="res.partner">
+            <field name="name">博多 大吉</field>
+            <field name="employee" eval="True"/>
+            <field name="is_company" eval="False"/>
+            <field name="lang">ja_JP</field>         
+       </record>
+
+       <record id="hr_people_analytics_user_jp1" model="res.users">
+            <field name="partner_id" ref="hr_people_analytics_partner_jp1"/>
+            <field name="login">hakata</field>
+            <field name="password">hakata</field>                        
+        </record>
+
+    <!-- Employee -->      
+      <record id="hr_people_analytics_jp1" model="hr.employee">
+            <field eval="0" name="manager"/>
+            <field eval="100" name="time_efficiency"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="department_id" ref="sales_management"/>
+            <field name="user_id" ref="hr_people_analytics_user_jp1"/>
+            <field eval="1" name="active"/>
+            <field name="name">博多 大吉</field>
+            <field name="resource_type">user</field>
+            <field name="work_location">営業部</field>
+            <field name="work_phone">+816482375</field>            
+      </record>
+
+   <!-- General Activities -->
+       <record id="hr_pa_general_activity_jp1" model="hr.general.activity">            
+            <field name="name">会議</field>
+            <field eval="1" name="active"/>                     
+       </record>
+     
+       <record id="hr_pa_general_activity_jp2" model="hr.general.activity">            
+            <field name="name">出張</field>
+            <field eval="1" name="active"/>                     
+       </record>
+
+       <record id="hr_pa_general_activity_jp3" model="hr.general.activity">            
+            <field name="name">移動</field>
+            <field eval="1" name="active"/>                     
+       </record>
+     
+       <record id="hr_pa_general_activity_jp4" model="hr.general.activity">            
+            <field name="name">打ち合わせ</field>
+            <field eval="1" name="active"/>                     
+       </record>       
+
+       <record id="hr_pa_general_activity_jp5" model="hr.general.activity">            
+            <field name="name">昼食</field>
+            <field eval="1" name="active"/>                     
+       </record>
+     
+       <record id="hr_pa_general_activity_jp6" model="hr.general.activity">            
+            <field name="name">休憩</field>
+            <field eval="1" name="active"/>                     
+       </record>
+
+   <!-- Related Activities -->
+       <record id="hr_pa_related_activity_1" model="hr.related.activity">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="name">res.partner,18</field>
+            <field eval="1" name="active"/>                     
+       </record>
+     
+       <record id="hr_pa_related_activity_2" model="hr.related.activity">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="name">res.partner,20</field>
+            <field eval="1" name="active"/>                     
+       </record> 
+
+       <record id="hr_pa_related_activity_3" model="hr.related.activity">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="name">product.product,38</field>
+            <field eval="1" name="active"/>                     
+       </record> 
+       
+       <record id="hr_pa_related_activity_4" model="hr.related.activity">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="name">sale.order,3</field>
+            <field eval="1" name="active"/>                     
+       </record> 
+
+       <record id="hr_pa_related_activity_5" model="hr.related.activity">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="name">sale.order,6</field>
+            <field eval="1" name="active"/>                     
+       </record>
+
+ <!-- Activity Record -->
+       <record id="hr_pa_activity_record_1" model="hr.activity.record">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="general_activity" ref="hr_pa_general_activity_jp4"/>
+            <field name="related_activity" ref="hr_pa_related_activity_1"/> 
+            <field eval="(datetime.now()+relativedelta(days=-2)).strftime('%Y-%m-%d 00:00:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-2)).strftime('%Y-%m-%d 03:00:00')" name="date_finished"/>
+            <field name="state">done</field>
+            <field name="comment">デモ・データー</field>                  
+       </record>
+
+       <record id="hr_pa_activity_record_line_11" model="hr.activity.record.line">
+            <field name="activity_record_id">1</field>                         
+            <field eval="(datetime.now()+relativedelta(days=-2)).strftime('%Y-%m-%d 00:00:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-2)).strftime('%Y-%m-%d 03:00:00')" name="date_finished"/>
+            <field name="state">done</field>                         
+       </record>
+
+
+       <record id="hr_pa_activity_record_2" model="hr.activity.record">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="related_activity" ref="hr_pa_related_activity_4"/> 
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 00:00:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 03:00:00')" name="date_finished"/>
+            <field name="state">done</field>
+            <field name="comment">デモ・データー</field>                  
+       </record>
+
+       <record id="hr_pa_activity_record_line_21" model="hr.activity.record.line">
+            <field name="activity_record_id">2</field>                         
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 00:00:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 01:10:00')" name="date_finished"/>
+            <field name="state">done</field>                         
+       </record> 
+
+       <record id="hr_pa_activity_record_line_22" model="hr.activity.record.line">
+            <field name="activity_record_id">2</field>                         
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 01:20:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 03:00:00')" name="date_finished"/>
+            <field name="state">done</field>                         
+       </record> 
+
+       <record id="hr_pa_activity_record_3" model="hr.activity.record">
+            <field name="employee_id" ref="hr_people_analytics_jp1"/>            
+            <field name="related_activity" ref="hr_pa_related_activity_5"/> 
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 04:00:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 10:00:00')" name="date_finished"/>
+            <field name="state">done</field>
+            <field name="comment">デモ・データー</field>                  
+       </record>
+
+       <record id="hr_pa_activity_record_line_31" model="hr.activity.record.line">
+            <field name="activity_record_id">3</field>                         
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 04:00:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 06:10:00')" name="date_finished"/>
+            <field name="state">done</field>                         
+       </record> 
+
+       <record id="hr_pa_activity_record_line_32" model="hr.activity.record.line">
+            <field name="activity_record_id">3</field>                         
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 06:20:00')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 08:30:10')" name="date_finished"/>
+            <field name="state">done</field>                         
+       </record> 
+
+       <record id="hr_pa_activity_record_line_33" model="hr.activity.record.line">
+            <field name="activity_record_id">3</field>                         
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 08:45:05')" name="date_start"/>
+            <field eval="(datetime.now()+relativedelta(days=-1)).strftime('%Y-%m-%d 10:00:00')" name="date_finished"/>
+            <field name="state">done</field>                         
+       </record> 
+
+ </data>
+</odoo>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template xml:space="preserve">
+     <t t-name="HrAttendanceKioskMode_pa">
+        <div class="o_hr_attendance_kiosk_mode_container">           
+            <div class="o_hr_attendance_clock"></div>            
+        </div>            
+    </t>
+ 
+   <t t-name="title">
+       <div class="oe_homepage_cell_co">
+           <h1>Welcome  <t t-esc="widget.employee.name"/></h1>
+       </div>
+    </t>
+  
+
+    <t t-name="Activity_C0">
+       <div class="oe_homepage_cell_c1">
+          <h2> General Activity: </h2>
+       </div>
+    </t>
+
+   <t t-name="Activity_E0">
+       <div class="oe_homepage_cell_e1">
+          <h2> Please select either General Activity or Related Activity or Both </h2>
+       </div>
+    </t>
+
+
+    <t t-name="Activity_R0">
+       <div class="oe_homepage_cell_c2">
+          <h2> Related Activity: </h2>
+       </div>
+    </t>
+
+    <t t-name="Activity_AR0">
+       <div class="oe_homepage_cell_c4">
+          <h2> Today's Activity </h2>
+       </div>
+    </t>
+
+    <t t-name="Activity_GA">
+         <div class="oe_homepage_cell_ca">                           
+               <t t-foreach="widget.general_activity" t-as="item_name">
+                  <t t-set="arg" t-value="item_name_value"/> 
+                     <div class="col-xs-4 o_hr_attendance_pin_pad_border">
+                                            <a t-attf-class="btn btn-primary btn-block btn-lg o_hr_attendance_btn-round-corners {{ 'o_hr_attendance_pin_pad_button_ca_' + arg.id }}"><t t-esc="arg.name"/></a>
+                    </div>
+                                                                           
+               </t>
+                                     
+        </div> 
+    </t>
+
+    <t t-name="Activity_RA">
+         <div class="oe_homepage_cell_ra">                             
+               <t t-foreach="widget.related_activity" t-as="item_name">
+                  <t t-set="arg" t-value="item_name_value"/> 
+                         <div class="col-xs-4 o_hr_attendance_pin_pad_border">
+                                            <a t-attf-class="btn btn-primary btn-block btn-lg o_hr_attendance_btn-round-corners {{ 'o_hr_attendance_pin_pad_button_ra_' + item_name }}"><t t-esc="arg.name"/></a>
+                         </div> 
+                                                                           
+               </t>
+                                     
+        </div> 
+    </t>
+
+    <t t-name="Activity_AR">
+         <div class="oe_homepage_cell_c4">
+             <h2> Today's Activity </h2>
+                      
+               <t t-foreach="widget.activity_list" t-as="item_name">
+                    <p>
+                    <t t-esc="item_name"/>
+                             <t t-set="arg" t-value="item_name_value"/>                                  
+                                 <t t-esc="arg.date_start"/>
+                                 <t t-esc="arg.date_finished"/>
+                                 <t t-esc="arg.general_activity"/>
+                                 <t t-esc="arg.related_activity"/>
+                                 <t t-esc="arg.state"/>
+                    </p>                                                          
+               </t>
+                                     
+        </div> 
+    </t>    
+
+  
+  
+    <t t-name="Activity_AR_now">       
+             <div class="oe_homepage_cell_c3"> 
+          <h2>Current Activity</h2>
+          <h2><pre>      Activity                         start_time    status</pre></h2>
+          <h2> 
+               <t t-esc="widget.a_record.general_activity"/>
+               <t t-esc="widget.a_record.related_activity"/>
+               <t t-esc="widget.a_record.date_start"/>             
+               <t t-esc="widget.a_record.state"/></h2>
+                              
+            </div> 
+    </t> 
+
+
+
+ <t t-name="play_sign">
+    <div class="o_hr_attendance_kiosk_mode_1">
+        <i class="fa fa-play btn-primary o_hr_attendance_sign_in_out_icon_play"/>
+    </div>
+ </t>
+
+ 
+ <t t-name="play_sign_0">
+    <div class="o_hr_attendance_kiosk_mode_10">
+        <i class="fa fa-play btn-primary o_hr_attendance_sign_in_out_icon_play_0"/>
+    </div>
+ </t>
+
+
+ <t t-name="pause_sign">
+    <div class="o_hr_attendance_kiosk_mode_2">
+       <i class="fa fa-pause btn-primary o_hr_attendance_sign_in_out_icon_pause"/>
+    </div>
+ </t>
+
+ <t t-name="stop_sign">
+    <div class="o_hr_attendance_kiosk_mode_10">
+       <i class="fa fa-stop btn-primary o_hr_attendance_sign_in_out_icon_stop"/>
+    </div> 
+ </t>
+
+</template>
